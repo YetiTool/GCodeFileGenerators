@@ -79,7 +79,7 @@ while n < 10:
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-f = open("xyz_endurance.nc", "w")
+f = open("xyz_endurance_accel.nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
