@@ -34,11 +34,11 @@ lines = ['(T1 CUSTOM TOOTH CUTTER)',
         'G94', #Feed units per mm
         'G17', #XY plane
         'G21', #In MM
-        'G0 Z0',
         'G0 X0 Y0', #Got to XY datum
-        'G0 Z' + str(z_height_above_stock), #Approach material
         'M3 S25000', # Turn on spindle
-        'G4 P2' # Allow time to spin up to speed
+        'G4 P2', # Allow time to spin up to speed
+        'AE', # Switch on extractor
+        'G0 Z' + str(z_height_above_stock) #Approach material
         ]
 
 # POPULATE GRID
@@ -73,7 +73,7 @@ lines.append("M5") #Kill spindle
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-f = open("y_rack_teeth_home.nc", "w")
+f = open("y_rack_teeth_274.nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
