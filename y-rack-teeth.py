@@ -70,6 +70,8 @@ for y in y_grid:
     lines.append("G0 Z" + str(z_height_above_stock)) #Lift to clear stock, so we can increment in y
 
 lines.append("M5") #Kill spindle
+lines.append("G4 P2") #Pause for vac overrun
+lines.append("AF") #Vac off
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
