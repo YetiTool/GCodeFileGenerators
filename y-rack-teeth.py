@@ -10,14 +10,16 @@ xy_feed_rate = 1000 #mm/min
 z_feed_rate = 400 #mm/min
 z_cut_depth_per_pass = 1.5
 
+# Job start point - Relative to home corner of stock
+x_start = 20.85
+x_end = 122.2
+y_start = 26.35
+
 # Job variables
 thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
 z_end = 8.62 # height of tooth depth, measured from bottom surface
-y_start = 0
-valleys_to_cut = 274 # number of valleys to cut
+valleys_to_cut = 275 # number of valleys to cut
 y_increment = 4.712388 # distance between teeth
-x_start = 0.5
-x_end = 19.5
 
 # Safety
 z_clearance_above_top_surface = 1 # relative clearance above stock for safe moves
@@ -46,7 +48,7 @@ y_grid = []
 y_count = 0
 y = y_start
 while y_count < valleys_to_cut:
-    y_grid.append(y)
+    y_grid.append(round(y, 3))
     y += y_increment
     y_count += 1
 print y_grid    
@@ -75,7 +77,7 @@ lines.append("AF") #Vac off
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-f = open("y_rack_teeth_274.nc", "w")
+f = open("y_rack_teeth.nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
