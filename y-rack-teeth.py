@@ -6,19 +6,20 @@
 ################################
 
 # Cutting variables
-xy_feed_rate = 1000 #mm/min
+xy_feed_rate = 2000 #mm/min
 z_feed_rate = 400 #mm/min
 z_cut_depth_per_pass = 1.5
 
+
 # Job start point - Relative to home corner of stock
 x_start = 20.85
-x_end = 122.2
-y_start = 26.35
+x_end = 283.9
+y_start = 50
 
 # Job variables
+valleys_to_cut = 281 # number of valleys to cut
 thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
 z_end = 8.62 # height of tooth depth, measured from bottom surface
-valleys_to_cut = 275 # number of valleys to cut
 y_increment = 4.712388 # distance between teeth
 
 # Safety
@@ -39,8 +40,7 @@ lines = ['(T1 CUSTOM TOOTH CUTTER)',
         'G0 X0 Y0', #Got to XY datum
         'M3 S25000', # Turn on spindle
         'G4 P2', # Allow time to spin up to speed
-        'AE', # Switch on extractor
-        'G0 Z' + str(z_height_above_stock) #Approach material
+        'AE' # Switch on extractor
         ]
 
 # POPULATE GRID
