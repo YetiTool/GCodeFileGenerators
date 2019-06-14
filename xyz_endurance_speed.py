@@ -5,7 +5,6 @@
 #     fast_y_speed = 6000
 #     fast_z_speed = 750
 
-
 lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
         'G90', #Absolute
         'G94', #Feed units per mm
@@ -16,13 +15,12 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
         'G4 P1' # Pause, for second thoughts
         ]
 
-
 # DEFINE X GRID
 x_start = 0
-x_end = 1239.0
+x_end = 1230.0
 
 y_start = 0
-y_end = 2448.0
+y_end = 2440.0
 
 z_start = 0
 z_end = -119.0

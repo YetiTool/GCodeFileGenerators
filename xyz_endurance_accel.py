@@ -35,7 +35,7 @@ while x < x_end - x_ramp_distance:
     
 # DEFINE Y GRID
 y_start = 0
-y_end = 2450.0
+y_end = 2463.0
 y_ramp_distance = 10
 y_increment = (y_end - y_ramp_distance) / x_count
 
@@ -50,7 +50,7 @@ while y < y_end - y_ramp_distance:
 
 # DEFINE Z GRID
 z_start = 0
-z_end = 120.0
+z_end = 145.0
 z_ramp_distance = 3
 z_increment = (z_end - z_ramp_distance) / x_count
 
