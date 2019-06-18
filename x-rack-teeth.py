@@ -14,10 +14,10 @@ z_cut_depth_per_pass = 1.5
 # Job start point - Relative to home corner of stock
 x_start = 28.85
 x_end = 275.95
-y_start = 88.76761
+y_start = 50
 
 # Job variables
-valleys_to_cut = 284 # number of valleys to cut
+valleys_to_cut = 297 # number of valleys to cut
 thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
 z_end = 4.62 # height of tooth depth, measured from bottom surface
 y_increment = 4.712388 # distance between teeth
@@ -77,7 +77,7 @@ lines.append("AF") #Vac off
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-f = open("x_rack_teeth.nc", "w")
+f = open("X rack teeth.nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
