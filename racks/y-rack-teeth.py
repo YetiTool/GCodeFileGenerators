@@ -13,7 +13,8 @@ z_cut_depth_per_pass = 1.5
 
 # Job start point - Relative to home corner of stock
 x_start = 20.85
-x_end = 283.9
+x_job_width = 262.15
+x_end = x_start + x_job_width
 y_start = 50
 
 # Job variables
