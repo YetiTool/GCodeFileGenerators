@@ -13,7 +13,7 @@ lines = ['(T1 6.35mm cutter)',
         'G21', #In MM
         'M3 S25000', # Turn on spindle
         'G4 P1', # Allow time to spin up to speed
-        'AE' # Switch on extractor
+        'AE', # Switch on extractor
         'G4 P2', # Allow time to spin up to speed
         ]
 

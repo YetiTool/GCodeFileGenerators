@@ -18,7 +18,7 @@ lines = ['(T1 6.35mm cutter)',
         ]
 
 # Cutting variables
-xy_feed_rate = 600 #mm/min
+xy_feed_rate = 3000 #mm/min
 z_feed_rate = 200 #mm/min
 
 z_height_for_rapid_move = 5 # relative clearance above stock for safe moves
@@ -28,8 +28,8 @@ gap_between_slots = 3
 
 number_of_channels_per_test = 6
 
-plunge_depth = -3
-run_length = 30
+plunge_depth = -1.5
+run_length = 250
 
 x = 0
 y = 0
@@ -48,8 +48,10 @@ while channel < number_of_channels_per_test:
     lines.append("G1 Z" + str(plunge_depth) + " F" + str(z_feed_rate))
     lines.append("G1 X" + str(run_length) + " F" + str(xy_feed_rate))
     lines.append("G0 Z" + str(z_height_for_rapid_move))
-    y += cutter_diameter + gap_between_slots
+#     y += cutter_diameter + gap_between_slots
     lines.append("G0 X" + str(x) + " Y" + str(y))
+    
+    plunge_depth -= 1.5
     channel += 1
 
 
@@ -60,7 +62,7 @@ lines.append("AF") #Vac off
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-f = open("baseline.nc", "w")
+f = open("alternating-z.nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
