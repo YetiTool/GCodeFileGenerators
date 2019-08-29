@@ -6,8 +6,9 @@
 ################################
 
 # Cutting variables
-xy_feed_rate = 2000 #mm/min
-z_feed_rate = 400 #mm/min
+xy_feed_rate = 4000 #mm/min
+xy_backlash_compensation_rate = 400 #mm/min
+z_feed_rate = 300 #mm/min
 z_cut_depth_per_pass = 1.5
 
 
@@ -19,7 +20,7 @@ y_start = 50
 # Job variables
 valleys_to_cut = 297 # number of valleys to cut
 thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
-z_end = 4.62 # height of tooth depth, measured from bottom surface
+z_end = 4.62 + 0.5 # height of tooth depth, measured from bottom surface
 y_increment = 4.712388 # distance between teeth
 
 # Safety
@@ -59,9 +60,16 @@ while z > z_end:
     z_grid.append(z)
     z -= z_cut_depth_per_pass
 z_grid.append(z_end)
+z_grid.append(z_end)    # finishing pass to clear out swarf
 print z_grid    
 
+backlash_compensation_dist = 2
+
 for y in y_grid:
+    
+    lines.append("G0 X" + str(x_start) + " Y" + str(y+backlash_compensation_dist)) #Go to XY start plus Y backlash comp
+    lines.append("G1 X" + str(x_start) + " Y" + str(y) + " F" + str(xy_backlash_compensation_rate)) #Go to XY start
+    
     for z in z_grid:
         lines.append("G0 X" + str(x_start) + " Y" + str(y)) #Go to XY start
         lines.append("G0 Z" + str(z + z_cut_depth_per_pass + z_clearance_on_cut_approach)) #Dive to just above material
@@ -69,6 +77,7 @@ for y in y_grid:
         lines.append("G1 X" + str(x_end) + " F" + str(xy_feed_rate)) #Feed cut face width of tooth
         lines.append("G1 Z" + str(z + z_clearance_on_cut_approach) + " F" + str(z_feed_rate)) #Lift off material surface slowly
         lines.append("G0 Z" + str(z + z_clearance_above_last_cut)) #Lift to safe distance above last cut
+
     lines.append("G0 Z" + str(z_height_above_stock)) #Lift to clear stock, so we can increment in y
 
 lines.append("M5") #Kill spindle

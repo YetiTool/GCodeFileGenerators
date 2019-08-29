@@ -51,7 +51,7 @@ finishing_passes_total = 4
 finishing_total_thickness = finishing_passes_total * finishing_pass_stepover
 
 trench_y_max = final_surface_y_coord - finishing_total_thickness
-trench_final_z_depth = 1.5
+trench_final_z_depth = 1
 trench_excess_x_width = 5
 trench_y_length = 2
 
@@ -232,7 +232,7 @@ lines.append("G0 Z" + str(z_height_for_rapid_move))
 
 
  
-# Compression end
+# Compression end part off
 lines.append("\n(Compression end)")
 
 y_end_coord = y_datum + y_job_size + (cutter_diameter/2)
@@ -262,8 +262,8 @@ lines.append("G1 Z" + str(outer_part_off_depth_7) + " F" + str(z_feed_rate))
 lines.append("G1 X" + str(x1) + " F" + str(xy_feed_rate*0.8))
 lines.append("G1 Z" + str(outer_part_off_depth_8) + " F" + str(z_feed_rate))
 lines.append("G1 X" + str(x0) + " F" + str(xy_feed_rate*0.8))
-lines.append("G1 Z" + str(outer_part_off_depth_9) + " F" + str(z_feed_rate))
-lines.append("G1 X" + str(x1) + " F" + str(xy_feed_rate*0.8))
+# lines.append("G1 Z" + str(outer_part_off_depth_9) + " F" + str(z_feed_rate))
+# lines.append("G1 X" + str(x1) + " F" + str(xy_feed_rate*0.8))
 
 
 # Final part off for reference end
@@ -272,9 +272,9 @@ y_part_off_excess = 0.2
 part_off_depth = -0.5
 
 lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(trench_x0) + " Y" + str(final_surface_y_coord - y_part_off_excess))
-lines.append("G1 Z" + str(part_off_depth) + " F" + str(z_feed_rate))
-lines.append("G1 X" + str(trench_x1) + " F" + str(xy_feed_rate*.5))
+# lines.append("G0 X" + str(trench_x0) + " Y" + str(final_surface_y_coord - y_part_off_excess))
+# lines.append("G1 Z" + str(part_off_depth) + " F" + str(z_feed_rate))
+# lines.append("G1 X" + str(trench_x1) + " F" + str(xy_feed_rate*.5))
 
 
 
