@@ -34,7 +34,7 @@ number_of_racks = 10
 
 cutter_diameter = 6.35
 cutter_rad = cutter_diameter/2
-excess_run = 0.5
+excess_run = 5
 
 # Stock variables
 thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
@@ -47,10 +47,12 @@ z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thic
 
 final_surface_y_coord = y_datum - (cutter_diameter/2)
 finishing_pass_stepover = 0.1 # amount of bite the full face of the cutter engages with
-finishing_passes_total = 4
+finishing_passes_total = 0
 finishing_total_thickness = finishing_passes_total * finishing_pass_stepover
 
-trench_y_max = final_surface_y_coord - finishing_total_thickness
+finishing_extra_bite_into_job = -6 # to cope with handling facing operation
+
+trench_y_max = final_surface_y_coord - finishing_total_thickness + finishing_extra_bite_into_job
 trench_final_z_depth = 1
 trench_excess_x_width = 5
 trench_y_length = 2
@@ -63,8 +65,8 @@ trench_y1 = trench_y_max
 
 lines.append("\n(Mating end trench)")
 
-lines.append("G0 X" + str(trench_x1) + " Y" + str(trench_y0))
 lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(trench_x1) + " Y" + str(trench_y0))
 
 z = thickest_material_thickness
 
@@ -95,38 +97,13 @@ while finishing_pass <= finishing_passes_total:
     finishing_pass += 1
 
 
- 
-# Inner part offs
-lines.append("\n(Inner partoffs)")
- 
-x_inner_coord = x_datum + rack_width + (cutter_diameter/2)
- 
-inner_channel_instance = 1
-
+# Part off depths
 
 # height_of_shoulder = 5
 inner_part_off_depth_1 = 3.5
 inner_part_off_depth_2 = 2
 inner_part_off_depth_3 = 0.5
 inner_part_off_depth_4 = -0.5
- 
-while inner_channel_instance < number_of_racks:
-    lines.append("G0 Z" + str(z_height_for_rapid_move))
-    lines.append("G0 X" + str(x_inner_coord) + " Y" + str(y_datum - excess_run))
-    lines.append("G1 Z" + str(inner_part_off_depth_1) + " F" + str(z_feed_rate))
-    lines.append("G1 Y" + str(y_datum + y_job_size + excess_run) + " F" + str(xy_feed_rate))
-    lines.append("G1 Z" + str(inner_part_off_depth_2) + " F" + str(z_feed_rate))
-    lines.append("G1 Y" + str(y_datum - excess_run) + " F" + str(xy_feed_rate))
-    lines.append("G1 Z" + str(inner_part_off_depth_3) + " F" + str(z_feed_rate))
-    lines.append("G1 Y" + str(y_datum + y_job_size + excess_run) + " F" + str(xy_feed_rate))
-    lines.append("G1 Z" + str(inner_part_off_depth_4) + " F" + str(z_feed_rate))
-    lines.append("G1 Y" + str(y_datum - excess_run) + " F" + str(xy_feed_rate))
-    inner_channel_instance += 1.0
-    x_inner_coord += rack_width + cutter_diameter
- 
- 
- 
-# Outside lengths
  
 outer_part_off_depth_1 = 11.5
 outer_part_off_depth_2 = 10
@@ -137,101 +114,9 @@ outer_part_off_depth_6 = 4
 outer_part_off_depth_7 = 2.5
 outer_part_off_depth_8 = 1
 outer_part_off_depth_9 = -0.5
- 
-lines.append("\n(Outside lengths: )" )
-
-x0 = x_datum - (cutter_diameter/2)
-x1 = x_datum + x_job_size + (cutter_diameter/2)
-
-y0 = y_datum - excess_run
-y1 = y_datum + y_job_size + excess_run
- 
-  
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_1) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_1) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_2) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_2) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_3) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_3) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_4) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_4) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_5) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_5) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_6) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_6) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_7) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_7) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_8) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_8) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-
-lines.append("G0 X" + str(x0) + " Y" + str(y1))
-lines.append("G1 Z" + str(outer_part_off_depth_9) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
-lines.append("G0 X" + str(x1))
-lines.append("G1 Z" + str(outer_part_off_depth_9) + " F" + str(z_feed_rate))
-lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
-lines.append("G0 Z" + str(z_height_for_rapid_move))
 
 
- 
+
 # Compression end part off
 lines.append("\n(Compression end)")
 
@@ -240,11 +125,8 @@ y_end_coord = y_datum + y_job_size + (cutter_diameter/2)
 x0 = x_datum - excess_run
 x1 = x_datum + x_job_size + excess_run
 
-
 lines.append("G0 Z" + str(z_height_for_rapid_move))
 lines.append("G0 X" + str(x0) + " Y" + str(y_end_coord))
-
- 
   
 lines.append("G1 Z" + str(outer_part_off_depth_1) + " F" + str(z_feed_rate))
 lines.append("G1 X" + str(x1) + " F" + str(xy_feed_rate))
@@ -264,22 +146,130 @@ lines.append("G1 Z" + str(outer_part_off_depth_8) + " F" + str(z_feed_rate))
 lines.append("G1 X" + str(x0) + " F" + str(xy_feed_rate*0.8))
 # lines.append("G1 Z" + str(outer_part_off_depth_9) + " F" + str(z_feed_rate))
 # lines.append("G1 X" + str(x1) + " F" + str(xy_feed_rate*0.8))
-
-
-# Final part off for reference end
-
-y_part_off_excess = 0.2
-part_off_depth = -0.5
-
 lines.append("G0 Z" + str(z_height_for_rapid_move))
-# lines.append("G0 X" + str(trench_x0) + " Y" + str(final_surface_y_coord - y_part_off_excess))
-# lines.append("G1 Z" + str(part_off_depth) + " F" + str(z_feed_rate))
-# lines.append("G1 X" + str(trench_x1) + " F" + str(xy_feed_rate*.5))
+
+
+ 
+# Inner part offs
+lines.append("\n(Inner partoffs)")
+ 
+x_inner_coord = x_datum + rack_width + (cutter_diameter/2)
+inner_channel_instance = 1
+
+while inner_channel_instance < number_of_racks:
+    lines.append("G0 Z" + str(z_height_for_rapid_move))
+    lines.append("G0 X" + str(x_inner_coord) + " Y" + str(y_datum - excess_run))
+    lines.append("G1 Z" + str(inner_part_off_depth_1) + " F" + str(z_feed_rate))
+    lines.append("G1 Y" + str(y_datum + y_job_size + excess_run) + " F" + str(xy_feed_rate))
+    lines.append("G1 Z" + str(inner_part_off_depth_2) + " F" + str(z_feed_rate))
+    lines.append("G1 Y" + str(y_datum - excess_run) + " F" + str(xy_feed_rate))
+    lines.append("G1 Z" + str(inner_part_off_depth_3) + " F" + str(z_feed_rate))
+    lines.append("G1 Y" + str(y_datum + y_job_size + excess_run) + " F" + str(xy_feed_rate))
+    lines.append("G1 Z" + str(inner_part_off_depth_4) + " F" + str(z_feed_rate))
+    lines.append("G1 Y" + str(y_datum - excess_run) + " F" + str(xy_feed_rate))
+    inner_channel_instance += 1.0
+    x_inner_coord += rack_width + cutter_diameter
+ 
+ 
+ 
+lines.append("\n(Outside partoffs: )" )
+
+x0 = x_datum - (cutter_diameter/2)
+x1 = x_datum + x_job_size + (cutter_diameter/2)
+
+y0 = y_datum - excess_run
+y1 = y_datum + y_job_size + excess_run
+ 
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_1) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_1) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_2) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_2) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_3) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_3) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_4) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_4) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_5) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_5) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate*2))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_6) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_6) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_7) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_7) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_8) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_8) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+lines.append("G0 X" + str(x0) + " Y" + str(y1))
+lines.append("G1 Z" + str(outer_part_off_depth_9) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y0) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+lines.append("G0 X" + str(x1))
+lines.append("G1 Z" + str(outer_part_off_depth_9) + " F" + str(z_feed_rate))
+lines.append("G1 Y" + str(y1) + " F" + str(xy_feed_rate))
+lines.append("G0 Z" + str(z_height_for_rapid_move))
+
+
+ 
 
 
 
+# END
 lines.append("\n(Shutdown)")
-
 lines.append("G0 Z" + str(z_height_for_rapid_move))
 lines.append("M5") #Kill spindle
 lines.append("G4 P2") #Pause for vac overrun
