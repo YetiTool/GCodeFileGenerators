@@ -42,7 +42,6 @@ z_clearance_above_top_surface = 5 # relative clearance above stock for safe move
 z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
 
 
-
 # Mating end
 
 final_surface_y_coord = y_datum - (cutter_diameter/2)
