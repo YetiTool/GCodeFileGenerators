@@ -5,40 +5,91 @@
 # Bottom surface of material   #
 ################################
 
-# Header
-lines = ['(CUTTER: 6.35 ACR FLAT BOTTOM)',
-        'G90', #Absolute
-        'G94', #Feed units per mm
-        'G17', #XY plane
-        'G21', #In MM
-        'M3 S25000', # Turn on spindle
-        'G4 P1', # Allow time for inrush
-        ]
 
+###### <<<<<<<<<SWITCH HERE>>>>>>>> #############
+
+# Uncomment the job needed
+
+# job_name = "X RACK PARTOFF"
+job_name = "Y RACK PARTOFF"
+
+#################################################
+
+
+if job_name == "X RACK PARTOFF":
+    x_datum = 28.85 # Job start point - Relative to home corner of stock
+    y_datum = 50.0
+    x_job_size = 242.15
+    y_job_size = 1394.87
+    rack_width = 18.5
+    number_of_racks = 10
+    shoulder_height = 1.5
+    thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
+
+
+elif job_name == "Y RACK PARTOFF":
+    x_datum = 20.85 # Job start point - Relative to home corner of stock
+    y_datum = 50.0
+    x_job_size = 262.15
+    y_job_size = 2643.0
+    rack_width = 20.5
+    number_of_racks = 10
+    shoulder_height = 5.0
+    thickest_material_thickness = 13 # polymer thickness can have a wild tolerance
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
+
+
+else: print "Select job name in the code header"
+
+
+# Header
+
+if job_name == "X RACK PARTOFF":
+
+    lines = ['(' + job_name + ')',
+            '(CUTTER: 6.35 ACR FLAT BOTTOM)',
+            'G90', #Absolute
+            'G94', #Feed units per mm
+            'G17', #XY plane
+            'G21', #In MM
+            'M3 S25000', # Turn on spindle
+            'G4 P1' # Allow time for inrush
+            ]
+
+
+elif job_name == "Y RACK PARTOFF":
+
+    lines = ['(' + job_name + ')',
+            '(CUTTER: 6.35 ACR FLAT BOTTOM)',
+
+            '\n(Pause block for vac bag change - to be unpaused by operator)',
+            'M5', # spindle off
+            'AF', # vac off
+            'M00', # pause until pause/resume button double tapped
+            ' ',
+            'AE', # vac on
+            'G4 P2', # Allow time for inrush
+            'M3 S25000', # Turn on spindle
+            'G4 P2' # Allow time for inrush
+                
+            ]
 
 # Cutting variables
+cutter_diameter = 6.35
+cutter_rad = cutter_diameter/2
 xy_feed_rate = 1500 #mm/min
 z_feed_rate = 200 #mm/min
 z_stepdown = 2
 z_final_part_off_depth = -0.5
 
-# Job start point - Relative to home corner of stock
-x_datum = 28.85
-y_datum = 50
-x_job_size = 242.15
-y_job_size = 1394.87
 
-rack_width = 18.5
-number_of_racks = 10
 
-cutter_diameter = 6.35
-cutter_rad = cutter_diameter/2
-excess_run = 5
 
 # Stock variables
-thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
-z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
-z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
+
 
 
 # Common end-trench variables
@@ -126,7 +177,7 @@ while x_inner_partoff_coord < x_datum + x_job_size:
     lines.append("G0 Z" + str(z_height_for_rapid_move))
     lines.append("G0 X" + str(x_inner_partoff_coord))
 
-    z = 1.5 # shoulder height
+    z = shoulder_height # shoulder height
     
     while z > z_final_part_off_depth:
         
@@ -186,8 +237,8 @@ lines.append("G4 P2") #Pause for vac overrun
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-f = open("x_rack_part_off.nc", "w")
+f = open(job_name + ".nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
-print "Done baby."
+print "Done: " + job_name
