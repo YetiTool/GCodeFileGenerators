@@ -20,8 +20,10 @@ if job_name == "X RACK TEETH":
     pass
 
 elif job_name == "Y RACK TEETH":
-    x_datum = 20.85     # Job start point - Relative to home corner of stock
-    x_job_width = 262.15
+    x_edge_of_stock_from_datum = 505.5
+    x_job_start_from_edge_of_job = 20.0
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_job   # Job start point - Relative to home corner of stock
+    x_job_width = 265.0
     x_end = x_datum + x_job_width
     y_datum = 50
     y_first_valley_position_on_model = 72.72

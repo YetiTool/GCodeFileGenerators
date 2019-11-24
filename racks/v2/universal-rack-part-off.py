@@ -17,6 +17,7 @@ job_name = "Y RACK PARTOFF"
 
 
 if job_name == "X RACK PARTOFF":
+
     x_datum = 28.85 # Job start point - Relative to home corner of stock
     y_datum = 50.0
     x_job_size = 242.15
@@ -30,7 +31,11 @@ if job_name == "X RACK PARTOFF":
 
 
 elif job_name == "Y RACK PARTOFF":
-    x_datum = 20.85 # Job start point - Relative to home corner of stock
+
+    x_edge_of_stock_from_datum = 505.5
+    x_job_start_from_edge_of_job = 20.85
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_job   # Job start point - Relative to home corner of stock
+
     y_datum = 50.0
     x_job_size = 262.15
     y_job_size = 2643.0
@@ -63,18 +68,14 @@ if job_name == "X RACK PARTOFF":
 elif job_name == "Y RACK PARTOFF":
 
     lines = ['(' + job_name + ')',
-            '(CUTTER: 6.35 ACR FLAT BOTTOM)',
-
-            '\n(Pause block for vac bag change - to be unpaused by operator)',
-            'M5', # spindle off
-            'AF', # vac off
-            'M00', # pause until pause/resume button double tapped
-            ' ',
-            'AE', # vac on
-            'G4 P2', # Allow time for inrush
+            '(CUSTOM CODE)',
+            '(CUTTER: 6.35 ACR FLAT BOTTOM)'
+            'G90', #Absolute
+            'G94', #Feed units per mm
+            'G17', #XY plane
+            'G21', #In MM
             'M3 S25000', # Turn on spindle
-            'G4 P2' # Allow time for inrush
-                
+            'G4 P1' # Allow time for inrush               
             ]
 
 # Cutting variables
