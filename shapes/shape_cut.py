@@ -1,9 +1,12 @@
-# Generates gcode to create rectangular cut
+# Generates gcode to create gcode paths to cut shapes
+# Parameter illustrations:
+# https://docs.google.com/presentation/d/1Y2u2M5wsdi023Vq9FB5F46MBVZMq2P3gxesHQzb4RQw/edit#slide=id.p
 
 ################################
 # Z-DATUM:                     #
 # Top surface of material   #
 ################################
+
 
 ###### INTERNAL APP SETTINGS
 
@@ -12,28 +15,33 @@ z_height_for_rapid_move = 3 # relative clearance above stock for safe moves
 
 ###### USER INPUTS
 
+# MODE
 # shape = "rectangle"
 shape = "circle"
 aperture_or_island = "island"
 # aperture_or_island = "aperture"
 
+
+# SHAPE PARAMETERS
 rect_job_x = 100
 rect_job_y = 100
-circ_input_diameter = 100
-job_z = 10
 rect_job_rad = 20
+circ_input_diameter = 100
 
-
+# TOOL
 cutter_diameter = 8
 cutter_rad = cutter_diameter/2
 
+# FEEDS AND SPEEDS
 xy_feed_rate = 1500 #mm/min
 z_feed_rate = 200 #mm/min
 spindle_speed = 25000 #rpm
 
+# STRATEGY
+job_z = 10
+stock_bottom_offset = 1
 stepdown = 2
 finishing_pass = 1
-stock_bottom_offset = 1
 
 
 # Job calculations
