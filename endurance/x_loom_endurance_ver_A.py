@@ -18,7 +18,7 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
 
 # DEFINE X GRID
 x_start = 0
-x_end = 1240
+x_end = 1280
 x_retract = 10
 x_ramp_distance = 20
 

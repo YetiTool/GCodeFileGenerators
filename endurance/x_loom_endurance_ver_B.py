@@ -15,36 +15,49 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
         'G4 P1' # Pause, for second thoughts
         ]
 
+# CYCLES
+cycles_to_test = 10000
 
 # DEFINE X GRID
-x_start = 0
-x_end = 1280
-x_retract = 10
-x_ramp_distance = 20
+x_start = 0.000
+x_end = 1296.000
 
-n = 0
-while n < 500:
-    x=0    
-    while x + x_ramp_distance <= x_end:
-        x += x_ramp_distance
-        lines.append("G0 X" + str(x)) #Go to X end
-        x -= x_retract
-        lines.append("G0 X" + str(x)) #Go to X start + increment
-    while x - x_ramp_distance >= x_start:
-        x -= x_ramp_distance
-        lines.append("G0 X" + str(x)) #Go to X end
-        x += x_retract
-        lines.append("G0 X" + str(x)) #Go to X start + increment
+# Comms intensity
+# The smaller the value, the higher the intensity of communications. 
+# However, too small and the look ahead buffer will not be able to move the axis quickly
 
+data_loading_increment = x_end
+round_trip_count = 0
+lines_count = 0
+
+while round_trip_count < cycles_to_test:
     
-    n += 1
+    x = x_start
+    
+    while x < x_end:
+
+        lines.append("G0 X" + str(x)) #Go to next co-ord
+        lines_count += 1
+        x += data_loading_increment
+        
+    while x > x_start:
+
+        lines.append("G0 X" + str(x)) #Go to next co-ord
+        lines_count += 1
+        x -= data_loading_increment
+        
+    round_trip_count += 1
+    lines.append("(YETI OUTPUT>CYCLE: " + str(round_trip_count)) #Go to next co-ord
+
 
 
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-f = open("x_loom_endurance.nc", "w")
+print "Lines: " + str(lines_count)
+  
+f = open("QC_x_loom_endurance_ver_B.nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
-print "File done"
+print "File done."
