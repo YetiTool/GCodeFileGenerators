@@ -18,8 +18,8 @@ z_height_for_rapid_move = 3 # relative clearance above stock for safe moves
 ###### USER INPUTS
 
 # MODE
-# shape = "rectangle"
-shape = "circle"
+shape = "rectangle"
+# shape = "circle"
 # aperture_or_island = "island"
 aperture_or_island = "aperture"
 
@@ -147,7 +147,7 @@ elif shape == "circle":
         # working in rads here
         
         total_circumference = 2.0 * math.pi * circ_path_rad
-        circ_tabs_qty = math.ceil(total_circumference / tab_distance) #roundup
+        circ_tabs_qty = math.floor(total_circumference / tab_distance) #round down
         circ_angle_between_tabs = (2.0 * math.pi) / circ_tabs_qty
         circ_angle_across_tab = (tab_effective_width / total_circumference) * (2.0 * math.pi)
 
