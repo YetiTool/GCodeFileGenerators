@@ -20,37 +20,37 @@ z_height_for_rapid_move = 3 # relative clearance above stock for safe moves
 # MODE
 shape = "rectangle"
 # shape = "circle"
-# aperture_or_island = "island"
-aperture_or_island = "aperture"
+aperture_or_island = "island"
+# aperture_or_island = "aperture"
 
 # TAB PARAMS
 tabs = True
-tab_height = 1
-tab_width = 8
-tab_distance = 35
+tab_height = 4
+tab_width = 6
+tab_distance = 40
 
 # RECTANGLE PARAMETERS
-rect_job_x = 100
-rect_job_y = 100
-rect_job_rad = 20
+rect_job_x = 300
+rect_job_y = 300
+rect_job_rad = 12
 
 # CIRCLE PARAMS
-circ_input_diameter = 100
+circ_input_diameter = 80
 
 # TOOL
-cutter_diameter = 8
+cutter_diameter = 6.35
 cutter_rad = cutter_diameter/2
 
 # FEEDS AND SPEEDS
-xy_feed_rate = 1500 #mm/min
-plunge_feed_rate = 200 #mm/min
+xy_feed_rate = 2500 #mm/min
+plunge_feed_rate = 1000 #mm/min
 spindle_speed = 25000 #rpm   # if available
 
 # STRATEGY
-material_thickness = 10
+material_thickness = 12
 stock_bottom_offset = 1
-stepdown = 2
-finishing_pass = 1
+stepdown = 3
+finishing_pass = 2
 
 
 # GLOBAL JOB CALCULATIONS
@@ -147,7 +147,7 @@ elif shape == "circle":
         # working in rads here
         
         total_circumference = 2.0 * math.pi * circ_path_rad
-        circ_tabs_qty = math.floor(total_circumference / tab_distance) #round down
+        circ_tabs_qty = math.ceil(total_circumference / tab_distance) #round down
         circ_angle_between_tabs = (2.0 * math.pi) / circ_tabs_qty
         circ_angle_across_tab = (tab_effective_width / total_circumference) * (2.0 * math.pi)
 
@@ -159,7 +159,7 @@ elif shape == "circle":
         
         circ_tab_start_angle = 0
 
-        while circ_tab_start_angle < (2 * math.pi):
+        while circ_tab_start_angle < (round(2 * math.pi,6)):
             
             # start co-ords
             x = circ_path_rad * math.cos(circ_tab_start_angle)
@@ -171,10 +171,16 @@ elif shape == "circle":
             x = circ_path_rad * math.cos(circ_tab_end_angle)
             y = circ_path_rad * math.sin(circ_tab_end_angle)
             circ_tab_end_pos.append([round(x,6),round(y,6)])
+
+            print str(2*math.pi) + ":   " + str(circ_tab_start_angle)
                         
             circ_tab_start_angle += circ_angle_between_tabs
             
+            
         circ_tab_next_start_pos = circ_tab_start_pos[1:] + circ_tab_start_pos[:1] # simple way to rotate a list
+
+        print "Tab qty: " + str(circ_tabs_qty)
+        print circ_tab_start_pos
 
 ################ GCODE GENERATOR ###############
 
@@ -272,9 +278,12 @@ while z >= z_max:
         # plunge and draw circle, anti-clockwise
         lines.append("G1 Z" + str(z) + " F" + str(plunge_feed_rate))
         if tabs and z < tab_absolute_height:
+            tab_count = 0
             for (xy_start, xy_end, xy_next) in zip(circ_tab_start_pos, circ_tab_end_pos, circ_tab_next_start_pos):
+                                
+                tab_count += 1
                 
-                lines.append("(Tab)")
+                lines.append("(Z" + str(z) + ": Tab " + str(tab_count) + ")")
 #                 if xy_start[0] != circ_path_rad: # hack to prevent repetition of co-ordinates from triggering a 360 degree revolution (makes sure that x co-ords aren't the same before appending - only works in this template with start point position etc)
 #                     lines.append("G3 X" + str(xy_start[0]) + " Y" + str(xy_start[1]) + " I" + str(-xy_start[0]) + " J" + str(-xy_start[1]) + " F" + str(xy_feed_rate))
                 lines.append("G1 Z" + str(tab_absolute_height) + " F" + str(plunge_feed_rate))
