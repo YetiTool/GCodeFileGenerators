@@ -10,8 +10,8 @@
 
 # Uncomment the job needed
 
-# job_name = "X RACK PARTOFF"
-job_name = "Y RACK PARTOFF"
+job_name = "X RACK PARTOFF"
+# job_name = "Y RACK PARTOFF"
 
 #################################################
 
@@ -24,7 +24,7 @@ if job_name == "X RACK PARTOFF":
     y_job_size = 1394.87
     rack_width = 18.5
     number_of_racks = 10
-    shoulder_height = 1.5
+    shoulder_height = 2.5
     thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
@@ -84,13 +84,10 @@ cutter_rad = cutter_diameter/2
 xy_feed_rate = 1500 #mm/min
 z_feed_rate = 200 #mm/min
 z_stepdown = 2
-z_final_part_off_depth = -0.5
-
-
+z_final_part_off_depth = -1.0
 
 
 # Stock variables
-
 
 
 # Common end-trench variables

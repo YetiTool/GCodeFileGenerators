@@ -37,7 +37,7 @@ else: print "Select job name in the code header"
 
 # Cutting variables
 
-xy_feed_rate = 4000 #mm/min
+xy_feed_rate = 2400 #mm/min
 xy_backlash_compensation_rate = 400 #mm/min
 z_feed_rate = 300 #mm/min
 z_cut_depth_per_pass = 1.5

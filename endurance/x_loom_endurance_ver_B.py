@@ -16,11 +16,11 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
         ]
 
 # CYCLES
-cycles_to_test = 10000
+cycles_to_test = 1000
 
 # DEFINE X GRID
 x_start = 0.000
-x_end = 1296.000
+x_end = 1280.000
 
 # Comms intensity
 # The smaller the value, the higher the intensity of communications. 
