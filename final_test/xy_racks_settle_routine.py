@@ -6,8 +6,7 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
         'G94', #Feed units per mm
         'G17', #XY plane
         'G21', #In MM
-        'G1 Z-130 F1000', #Puts spindle mass at lowest
-        'G0 X0 Y0', #Goto datum
+        'G0 X0 Y0 Z-130', #Goto XY datum, put spindle at point of lowest moment
         'G4 P1' # Pause, for second thoughts
         ]
 
@@ -53,8 +52,7 @@ while i < x_count:
 
 lines.append("\n(Beam mass centre)\n") #Go to X end
 
-lines.append('G53 G0 X-1285') #Put z head head in position where X beam CoG is mid plane of machine
-lines.append('G54') #Go to X start + increment
+lines.append('G0 X900') #Put z head head in position where X beam CoG is mid plane of machine
 
 lines.append("\n(Y shuffle)\n") #Go to X end
 
