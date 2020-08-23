@@ -9,15 +9,24 @@
 
 # Uncomment the job needed
 
-# job_name = "X RACK TEETH"
-job_name = "Y RACK TEETH"
+job_name = "X RACK TEETH"
+# job_name = "Y RACK TEETH"
 
 #################################################
 
 if job_name == "X RACK TEETH":
 
-    # TODO
-    pass
+    x_edge_of_stock_from_datum = 513.0
+    x_job_start_from_edge_of_job = 29.45
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_job   # Job start point - Relative to home corner of stock
+    x_job_width = 247.1
+    x_end = x_datum + x_job_width
+    y_datum = 305 # +50 from the edge of stock
+    y_first_valley_position_on_model = 0
+    y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
+    z_end = 4.62 # height of tooth depth, measured from bottom surface
+    y_increment = 4.712388 # distance between teeth
 
 elif job_name == "Y RACK TEETH":
     x_edge_of_stock_from_datum = 505.5
