@@ -18,13 +18,13 @@ job_name = "X RACK PARTOFF"
 
 if job_name == "X RACK PARTOFF":
 
-    x_datum = 28.85 # Job start point - Relative to home corner of stock
-    y_datum = 50.0
+    x_datum = 544.925 # Job start point - Relative to home corner of stock
+    y_datum = 305.0
     x_job_size = 242.15
     y_job_size = 1394.87
     rack_width = 18.5
     number_of_racks = 10
-    shoulder_height = 2.5
+    shoulder_height = 2.0
     thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
@@ -60,7 +60,7 @@ if job_name == "X RACK PARTOFF":
             'G94', #Feed units per mm
             'G17', #XY plane
             'G21', #In MM
-            'M3 S25000', # Turn on spindle
+            'M3 S20000', # Turn on spindle
             'G4 P1' # Allow time for inrush
             ]
 
@@ -74,15 +74,15 @@ elif job_name == "Y RACK PARTOFF":
             'G94', #Feed units per mm
             'G17', #XY plane
             'G21', #In MM
-            'M3 S25000', # Turn on spindle
+            'M3 S20000', # Turn on spindle
             'G4 P1' # Allow time for inrush               
             ]
 
 # Cutting variables
 cutter_diameter = 6.35
 cutter_rad = cutter_diameter/2
-xy_feed_rate = 1500 #mm/min
-z_feed_rate = 200 #mm/min
+xy_feed_rate = 3000 #mm/min
+z_feed_rate = 1000 #mm/min
 z_stepdown = 2
 z_final_part_off_depth = -1.0
 
