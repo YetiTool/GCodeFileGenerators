@@ -17,21 +17,21 @@ job_name = "X RACK TEETH"
 if job_name == "X RACK TEETH":
 
     x_edge_of_stock_from_datum = 513.0
-    x_job_start_from_edge_of_job = 29.45
-    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_job   # Job start point - Relative to home corner of stock
-    x_job_width = 247.1
+    x_job_start_from_edge_of_stock = 36.925
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
+    x_job_width = 232.15
     x_end = x_datum + x_job_width
     y_datum = 305 # +50 from the edge of stock
     y_first_valley_position_on_model = 0
     y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
     thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
-    z_end = 4.62 # height of tooth depth, measured from bottom surface
+    z_end = 5.62 # height of tooth depth, measured from bottom surface. Note we are assuming 8.5mm stock since we need rack to project far enough out to constrain energy chain! Ideally, we'd nominal at 8, but needs must.
     y_increment = 4.712388 # distance between teeth
 
 elif job_name == "Y RACK TEETH":
     x_edge_of_stock_from_datum = 505.5
-    x_job_start_from_edge_of_job = 20.0
-    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_job   # Job start point - Relative to home corner of stock
+    x_job_start_from_edge_of_stock = 20.0
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
     x_job_width = 265.0
     x_end = x_datum + x_job_width
     y_datum = 50
@@ -69,9 +69,9 @@ lines = ['(' + job_name + ')',
         'G94', #Feed units per mm
         'G17', #XY plane
         'G21', #In MM
-        'G0 X0 Y0', #Got to XY datum
         'G4 P1', # Allow time to spin up to speed
-        'M3 S25000' # Turn on spindle
+        'M3 S20000', # Turn on spindle
+        'G4 P1' # Allow time to spin up to speed
         ]
 
 # POPULATE GRID

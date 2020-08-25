@@ -18,13 +18,13 @@ job_name = "X RACK PARTOFF"
 
 if job_name == "X RACK PARTOFF":
 
-    x_datum = 544.925 # Job start point - Relative to home corner of stock
+    x_datum = 549.925 # Job start point - Relative to home corner of stock
+    x_job_size = 232.15
     y_datum = 305.0
-    x_job_size = 242.15
     y_job_size = 1394.87
-    rack_width = 18.5
+    rack_width = 17.5
     number_of_racks = 10
-    shoulder_height = 2.0
+    shoulder_height = 1.4
     thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
