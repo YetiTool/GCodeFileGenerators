@@ -27,6 +27,14 @@ if job_name == "X RACK TEETH":
     thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
     z_end = 5.62 # height of tooth depth, measured from bottom surface. Note we are assuming 8.5mm stock since we need rack to project far enough out to constrain energy chain! Ideally, we'd nominal at 8, but needs must.
     y_increment = 4.712388 # distance between teeth
+    finishing_pass = True
+
+    # Cutting variables
+    xy_feed_rate = 2400 #mm/min
+    xy_backlash_compensation_rate = 400 #mm/min
+    z_feed_rate = 300 #mm/min
+    z_cut_depth_per_pass = 1.9
+    spindle_speed = 20000
 
 elif job_name == "Y RACK TEETH":
     x_edge_of_stock_from_datum = 505.5
@@ -40,17 +48,17 @@ elif job_name == "Y RACK TEETH":
     thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
     z_end = 8.62 # height of tooth depth, measured from bottom surface
     y_increment = 4.712388 # distance between teeth
+    finishing_pass = True
+
+    # Cutting variables
+    xy_feed_rate = 2400 #mm/min
+    xy_backlash_compensation_rate = 400 #mm/min
+    z_feed_rate = 300 #mm/min
+    z_cut_depth_per_pass = 1.5
+    spindle_speed = 20000
+
     
 else: print "Select job name in the code header"
-
-
-# Cutting variables
-
-xy_feed_rate = 2400 #mm/min
-xy_backlash_compensation_rate = 400 #mm/min
-z_feed_rate = 300 #mm/min
-z_cut_depth_per_pass = 1.5
-
 
 
 # Safety
@@ -70,7 +78,7 @@ lines = ['(' + job_name + ')',
         'G17', #XY plane
         'G21', #In MM
         'G4 P1', # Allow time to spin up to speed
-        'M3 S20000', # Turn on spindle
+        'M3 S' + str(spindle_speed), # Turn on spindle
         'G4 P1' # Allow time to spin up to speed
         ]
 
@@ -88,6 +96,7 @@ while z > z_end:
     z_grid.append(z)
     z -= z_cut_depth_per_pass
 z_grid.append(z_end)
+if finishing_pass: z_grid.append(z_end) # simple way of repeating final depth 
 print z_grid    
 
 backlash_compensation_dist = 2
