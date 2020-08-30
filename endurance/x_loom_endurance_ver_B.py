@@ -11,7 +11,6 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
         'G94', #Feed units per mm
         'G17', #XY plane
         'G21', #In MM
-        'G0 X0 Y0 Z0',
         'G4 P1' # Pause, for second thoughts
         ]
 
@@ -20,7 +19,7 @@ cycles_to_test = 1000
 
 # DEFINE X GRID
 x_start = 0.000
-x_end = 1280.000
+x_end = 1296.000
 
 # Comms intensity
 # The smaller the value, the higher the intensity of communications. 

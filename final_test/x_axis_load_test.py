@@ -6,6 +6,7 @@ x_start = 1
 x_end = 1296
 x_increment = 30
 x_ramp_distance = x_increment + 50
+total_cycles = 200
 
 
 # X +ve test
@@ -28,13 +29,17 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
 
 lines.append("\n(X shuffle)\n") #Go to X end
 
-i = 0 
-lines.append("G0 X" + str(x_grid[i])) #Go to X end
-
-while i < x_count:
-    lines.append("G0 X" + str(x_grid[i] + x_ramp_distance)) #Go to X end
-    lines.append("G0 X" + str(x_grid[i] + x_increment)) #Go to X start + increment
-    i += 1
+n = 0
+while n < total_cycles:
+    i = 0 
+    lines.append("G0 X" + str(x_grid[i])) #Go to X end
+    
+    while i < x_count:
+        lines.append("G0 X" + str(x_grid[i] + x_ramp_distance)) #Go to X end
+        lines.append("G0 X" + str(x_grid[i] + x_increment)) #Go to X start + increment
+        i += 1
+    
+    n += 1
 
 lines.append("M30") #Prog end
   
@@ -65,13 +70,16 @@ lines = ['(T1 SPINDLE ONLY, NO ROUTER CUTTER)',
 
 lines.append("\n(X shuffle)\n") #Go to X end
 
-i = 0 
-lines.append("G0 X" + str(x_grid[i])) #Go to X end
-
-while i < x_count:
-    lines.append("G0 X" + str(x_grid[i] - x_ramp_distance)) #Go to X end
-    lines.append("G0 X" + str(x_grid[i] - x_increment)) #Go to X start + increment
-    i += 1
+n = 0
+while n < total_cycles:
+    i = 0 
+    lines.append("G0 X" + str(x_grid[i])) #Go to X end
+    
+    while i < x_count:
+        lines.append("G0 X" + str(x_grid[i] - x_ramp_distance)) #Go to X end
+        lines.append("G0 X" + str(x_grid[i] - x_increment)) #Go to X start + increment
+        i += 1
+    n += 1
 
 lines.append("M30") #Prog end
   
