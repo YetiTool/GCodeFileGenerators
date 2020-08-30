@@ -18,17 +18,25 @@ job_name = "X RACK PARTOFF"
 
 if job_name == "X RACK PARTOFF":
 
-    x_datum = 544.925 # Job start point - Relative to home corner of stock
+    x_datum = 549.925 # Job start point - Relative to home corner of stock
+    x_job_size = 232.15
     y_datum = 305.0
-    x_job_size = 242.15
     y_job_size = 1394.87
-    rack_width = 18.5
+    rack_width = 17.5
     number_of_racks = 10
-    shoulder_height = 2.0
+    shoulder_height = 1.4
     thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
 
+    # Cutting variables
+    spindle_speed = 24000
+    cutter_diameter = 6.35
+    cutter_rad = cutter_diameter/2
+    xy_feed_rate = 1800 #mm/min
+    z_feed_rate = 1000 #mm/min
+    z_stepdown = 2
+    z_final_part_off_depth = -1.0
 
 elif job_name == "Y RACK PARTOFF":
 
@@ -46,48 +54,30 @@ elif job_name == "Y RACK PARTOFF":
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_height_for_rapid_move = z_clearance_above_top_surface + thickest_material_thickness
 
+    # Cutting variables
+    spindle_speed = 24000
+    cutter_diameter = 6.35
+    cutter_rad = cutter_diameter/2
+    xy_feed_rate = 3000 #mm/min
+    z_feed_rate = 1000 #mm/min
+    z_stepdown = 2
+    z_final_part_off_depth = -1.0
 
 else: print "Select job name in the code header"
 
 
 # Header
 
-if job_name == "X RACK PARTOFF":
+lines = ['(' + job_name + ')',
+        '(CUTTER: 6.35 ACR FLAT BOTTOM)',
+        'G90', #Absolute
+        'G94', #Feed units per mm
+        'G17', #XY plane
+        'G21', #In MM
+        'M3 S' + str(spindle_speed), # Turn on spindle
+        'G4 P1' # Allow time for inrush
+        ]
 
-    lines = ['(' + job_name + ')',
-            '(CUTTER: 6.35 ACR FLAT BOTTOM)',
-            'G90', #Absolute
-            'G94', #Feed units per mm
-            'G17', #XY plane
-            'G21', #In MM
-            'M3 S20000', # Turn on spindle
-            'G4 P1' # Allow time for inrush
-            ]
-
-
-elif job_name == "Y RACK PARTOFF":
-
-    lines = ['(' + job_name + ')',
-            '(CUSTOM CODE)',
-            '(CUTTER: 6.35 ACR FLAT BOTTOM)'
-            'G90', #Absolute
-            'G94', #Feed units per mm
-            'G17', #XY plane
-            'G21', #In MM
-            'M3 S20000', # Turn on spindle
-            'G4 P1' # Allow time for inrush               
-            ]
-
-# Cutting variables
-cutter_diameter = 6.35
-cutter_rad = cutter_diameter/2
-xy_feed_rate = 3000 #mm/min
-z_feed_rate = 1000 #mm/min
-z_stepdown = 2
-z_final_part_off_depth = -1.0
-
-
-# Stock variables
 
 
 # Common end-trench variables
