@@ -17,24 +17,26 @@ job_name = "X RACK TEETH"
 if job_name == "X RACK TEETH":
 
     x_edge_of_stock_from_datum = 513.0
-    x_job_start_from_edge_of_stock = 36.925
+    x_job_start_from_edge_of_stock = 18.0
     x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
-    x_job_width = 232.15
+    x_job_width = 270.0
     x_end = x_datum + x_job_width
     y_datum = 305 # +50 from the edge of stock
     y_first_valley_position_on_model = 0
     y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
-    thickest_material_thickness = 9 # polymer thickness can have a wild tolerance
+    thickest_material_thickness = 8 # polymer thickness can have a wild tolerance
     z_end = 5.62 # height of tooth depth, measured from bottom surface. Note we are assuming 8.5mm stock since we need rack to project far enough out to constrain energy chain! Ideally, we'd nominal at 8, but needs must.
     y_increment = 4.712388 # distance between teeth
-    finishing_pass = True
 
     # Cutting variables
     xy_feed_rate = 2400 #mm/min
     xy_backlash_compensation_rate = 400 #mm/min
     z_feed_rate = 300 #mm/min
-    z_cut_depth_per_pass = 1.9
+    z_cut_depth_per_pass = 1
     spindle_speed = 20000
+    
+    z_grid = [7.2,6.3,5.62] # See sketch which defines even chip load at these depths 
+    print z_grid    
 
 elif job_name == "Y RACK TEETH":
     x_edge_of_stock_from_datum = 505.5
@@ -48,7 +50,6 @@ elif job_name == "Y RACK TEETH":
     thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
     z_end = 8.62 # height of tooth depth, measured from bottom surface
     y_increment = 4.712388 # distance between teeth
-    finishing_pass = True
 
     # Cutting variables
     xy_feed_rate = 2400 #mm/min
@@ -57,14 +58,16 @@ elif job_name == "Y RACK TEETH":
     z_cut_depth_per_pass = 1.5
     spindle_speed = 20000
 
+    z_grid = [TODO] # See sketch which defines even chip load at these depths 
+    print z_grid    
     
 else: print "Select job name in the code header"
 
 
 # Safety
-z_clearance_above_top_surface = 1 # relative clearance above stock for safe moves
-z_clearance_above_last_cut = 1 # relative clearance above last cut for next  moves
-z_clearance_on_cut_approach = 0.25 # as we get very near the material, we need to be at cutting feed for
+z_clearance_above_top_surface = 2 # relative clearance above stock for safe moves
+z_clearance_above_last_cut = 2 # relative clearance above last cut for next  moves
+z_clearance_on_cut_approach = 0.5 # as we get very near the material, we need to be at cutting feed for
 
 # Implications
 z_height_above_stock = z_clearance_above_top_surface + thickest_material_thickness
@@ -89,15 +92,6 @@ while y < y_last_valey_position_on_model + y_datum + 1.0:
     y_grid.append(round(y, 3))
     y += y_increment
 print y_grid    
-
-z_grid = []
-z = z_start
-while z > z_end:
-    z_grid.append(z)
-    z -= z_cut_depth_per_pass
-z_grid.append(z_end)
-if finishing_pass: z_grid.append(z_end) # simple way of repeating final depth 
-print z_grid    
 
 backlash_compensation_dist = 2
 
