@@ -9,8 +9,8 @@
 
 # Uncomment the job needed
 
-job_name = "X RACK TEETH"
-# job_name = "Y RACK TEETH"
+# job_name = "X RACK TEETH"
+job_name = "Y RACK TEETH"
 
 #################################################
 
@@ -32,10 +32,9 @@ if job_name == "X RACK TEETH":
     xy_feed_rate = 2400 #mm/min
     xy_backlash_compensation_rate = 400 #mm/min
     z_feed_rate = 300 #mm/min
-    z_cut_depth_per_pass = 1
     spindle_speed = 20000
     
-    z_grid = [7.2,6.3,5.62] # See sketch which defines even chip load at these depths 
+    z_grid = [7.4,6.6,5.9,5.62] # See sketch which defines even chip load at these depths 
     print z_grid    
 
 
@@ -47,7 +46,7 @@ elif job_name == "Y RACK TEETH":
     x_end = x_datum + x_job_width
     y_datum = 50
     y_first_valley_position_on_model = 72.72
-    y_last_valey_position_on_model = 2631.54 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    y_last_valey_position_on_model = 2643 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
     thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
     z_end = 8.62 # height of tooth depth, measured from bottom surface
     y_increment = 4.712388 # distance between teeth
@@ -56,10 +55,9 @@ elif job_name == "Y RACK TEETH":
     xy_feed_rate = 2400 #mm/min
     xy_backlash_compensation_rate = 400 #mm/min
     z_feed_rate = 300 #mm/min
-    z_cut_depth_per_pass = 1.5
     spindle_speed = 20000
 
-    z_grid = [TODO] # See sketch which defines even chip load at these depths 
+    z_grid = [11.4,10.4,9.6,8.9,8.62] # See sketch which defines even chip load at these depths 
     print z_grid    
     
 else: print "Select job name in the code header"
@@ -68,11 +66,10 @@ else: print "Select job name in the code header"
 # Safety
 z_clearance_above_top_surface = 2 # relative clearance above stock for safe moves
 z_clearance_above_last_cut = 2 # relative clearance above last cut for next  moves
-z_clearance_on_cut_approach = 0.5 # as we get very near the material, we need to be at cutting feed for
+z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
 
 # Implications
 z_height_above_stock = z_clearance_above_top_surface + thickest_material_thickness
-z_start = thickest_material_thickness - z_cut_depth_per_pass
 
 # Header
 lines = ['(' + job_name + ')',
@@ -104,7 +101,7 @@ for y in y_grid:
     for z in z_grid:
 
         lines.append("G0 X" + str(x_datum) + " Y" + str(y)) #Go to XY start plus Y backlash comp
-        lines.append("G0 Z" + str(z + z_cut_depth_per_pass + z_clearance_on_cut_approach)) #Dive to just above material
+        lines.append("G0 Z" + str(z + z_clearance_on_cut_approach)) #Dive to just above material
         lines.append("G1 Z" + str(z) + " F" + str(z_feed_rate)) #Feed dive to z depth
         lines.append("G1 X" + str(x_end) + " F" + str(xy_feed_rate)) #Feed cut face width of tooth
         lines.append("G1 Z" + str(z + z_clearance_on_cut_approach) + " F" + str(z_feed_rate)) #Lift off material surface slowly
