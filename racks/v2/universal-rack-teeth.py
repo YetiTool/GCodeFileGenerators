@@ -37,7 +37,6 @@ if job_name == "X RACK TEETH":
     z_grid = [7.4,6.6,5.9,5.62] # See sketch which defines even chip load at these depths 
     print z_grid    
 
-
 elif job_name == "Y RACK TEETH":
     x_edge_of_stock_from_datum = 505.5
     x_job_start_from_edge_of_stock = 20.0
