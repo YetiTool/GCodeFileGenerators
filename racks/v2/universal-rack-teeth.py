@@ -57,15 +57,15 @@ elif job_name == "Y RACK TEETH":
     z_feed_rate = 300 #mm/min
     spindle_speed = 20000
 
-    z_grid = [11.4,10.4,9.6,8.9,8.62] # See sketch which defines even chip load at these depths 
+    z_grid = [11.6,10.7,10,9.4,8.84,8.62] # See sketch which defines even chip load at these depths 
     print z_grid    
     
 else: print "Select job name in the code header"
 
 
 # Safety
-z_clearance_above_top_surface = 2 # relative clearance above stock for safe moves
-z_clearance_above_last_cut = 2 # relative clearance above last cut for next  moves
+z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
 z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
 
 # Implications
