@@ -9,8 +9,8 @@
 
 # Uncomment the job needed
 
-# job_name = "X RACK TEETH"
-job_name = "Y RACK TEETH"
+job_name = "X RACK TEETH"
+# job_name = "Y RACK TEETH"
 
 #################################################
 
@@ -24,17 +24,16 @@ if job_name == "X RACK TEETH":
     y_datum = 305 # +50 from the edge of stock
     y_first_valley_position_on_model = 0
     y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
-    thickest_material_thickness = 8 # polymer thickness can have a wild tolerance
-    z_end = 5.62 # height of tooth depth, measured from bottom surface. Note we are assuming 8.5mm stock since we need rack to project far enough out to constrain energy chain! Ideally, we'd nominal at 8, but needs must.
+    thickest_material_thickness = 8 # assuming we've skimmed to 8
     y_increment = 4.712388 # distance between teeth
 
     # Cutting variables
-    xy_feed_rate = 2400 #mm/min
+    xy_feed_rate = 3000 #mm/min
     xy_backlash_compensation_rate = 400 #mm/min
     z_feed_rate = 300 #mm/min
     spindle_speed = 20000
     
-    z_grid = [7.4,6.6,5.9,5.62] # See sketch which defines even chip load at these depths 
+    z_grid = [6.85, 6.05, 5.4, 5.12] # See sketch which defines even chip load at these depths 
     print z_grid    
 
 elif job_name == "Y RACK TEETH":
@@ -47,7 +46,6 @@ elif job_name == "Y RACK TEETH":
     y_first_valley_position_on_model = 72.72
     y_last_valey_position_on_model = 2643 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
     thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
-    z_end = 8.62 # height of tooth depth, measured from bottom surface
     y_increment = 4.712388 # distance between teeth
 
     # Cutting variables
