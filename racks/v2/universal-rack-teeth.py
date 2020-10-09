@@ -33,7 +33,7 @@ if job_name == "X RACK TEETH":
     z_feed_rate = 300 #mm/min
     spindle_speed = 20000
     
-    z_grid = [6.85, 6.05, 5.4, 5.12] # See sketch which defines even chip load at these depths 
+    z_grid = [6.25, 5.12] # See sketch which defines even chip load at these depths 
     print z_grid    
 
 elif job_name == "Y RACK TEETH":
@@ -49,12 +49,12 @@ elif job_name == "Y RACK TEETH":
     y_increment = 4.712388 # distance between teeth
 
     # Cutting variables
-    xy_feed_rate = 2400 #mm/min
+    xy_feed_rate = 3000 #mm/min
     xy_backlash_compensation_rate = 400 #mm/min
     z_feed_rate = 300 #mm/min
     spindle_speed = 20000
 
-    z_grid = [11.6,10.7,10,9.4,8.84,8.62] # See sketch which defines even chip load at these depths 
+    z_grid = [9.75, 8.62] # See sketch which defines even chip load at these depths 
     print z_grid    
     
 else: print "Select job name in the code header"
