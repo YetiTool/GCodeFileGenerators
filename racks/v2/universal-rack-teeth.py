@@ -9,10 +9,15 @@
 
 # Uncomment the job needed
 
-job_name = "X RACK TEETH"
+# job_name = "X RACK TEETH"
+job_name = "X RACK GUTTER"
+
 # job_name = "Y RACK TEETH"
+# job_name = "Y RACK GUTTER"
 
 #################################################
+
+# Y
 
 if job_name == "X RACK TEETH":
 
@@ -34,7 +39,39 @@ if job_name == "X RACK TEETH":
     spindle_speed = 20000
     
     z_grid = [6.25, 5.12] # See sketch which defines even chip load at these depths 
+    print z_grid  
+    # Safety
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
+    z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
+
+elif job_name == "X RACK GUTTER":
+
+    x_edge_of_stock_from_datum = 513.0
+    x_job_start_from_edge_of_stock = 18.0
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
+    x_job_width = 270.0
+    x_end = x_datum + x_job_width
+    y_datum = 305 # +50 from the edge of stock
+    y_first_valley_position_on_model = 0
+    y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    thickest_material_thickness = 8 # assuming we've skimmed to 8
+    y_increment = 4.712388 # distance between teeth
+
+    # Cutting variables
+    xy_feed_rate = 3000 #mm/min
+    xy_backlash_compensation_rate = 400 #mm/min
+    z_feed_rate = 150 #mm/min
+    spindle_speed = 25000
+    
+    z_grid = [4.32] # See sketch which defines even chip load at these depths 
     print z_grid    
+    # Safety
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
+    z_clearance_on_cut_approach = 1.5 # as we get very near the material, we need to be at cutting feed for
+
+# Y
 
 elif job_name == "Y RACK TEETH":
     x_edge_of_stock_from_datum = 505.5
@@ -56,14 +93,40 @@ elif job_name == "Y RACK TEETH":
 
     z_grid = [9.75, 8.62] # See sketch which defines even chip load at these depths 
     print z_grid    
+    # Safety
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
+    z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
+
+elif job_name == "Y RACK GUTTER":
+    x_edge_of_stock_from_datum = 505.5
+    x_job_start_from_edge_of_stock = 20.0
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
+    x_job_width = 265.0
+    x_end = x_datum + x_job_width
+    y_datum = 50
+    y_first_valley_position_on_model = 72.72
+    y_last_valey_position_on_model = 2643 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
+    y_increment = 4.712388 # distance between teeth
+
+    # Cutting variables
+    xy_feed_rate = 3000 #mm/min
+    xy_backlash_compensation_rate = 400 #mm/min
+    z_feed_rate = 150 #mm/min
+    spindle_speed = 25000
+
+    z_grid = [7.82] # See sketch which defines even chip load at these depths 
+    print z_grid    
+    # Safety
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
+    z_clearance_on_cut_approach = 1.5 # as we get very near the material, we need to be at cutting feed for
+
     
 else: print "Select job name in the code header"
 
 
-# Safety
-z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
-z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
-z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
 
 # Implications
 z_height_above_stock = z_clearance_above_top_surface + thickest_material_thickness
