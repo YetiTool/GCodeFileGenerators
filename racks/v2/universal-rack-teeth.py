@@ -10,10 +10,10 @@
 # Uncomment the job needed
 
 # job_name = "X RACK TEETH"
-job_name = "X RACK GUTTER"
+# job_name = "X RACK GUTTER"
 
 # job_name = "Y RACK TEETH"
-# job_name = "Y RACK GUTTER"
+job_name = "Y RACK GUTTER"
 
 #################################################
 
@@ -61,7 +61,7 @@ elif job_name == "X RACK GUTTER":
     # Cutting variables
     xy_feed_rate = 3000 #mm/min
     xy_backlash_compensation_rate = 400 #mm/min
-    z_feed_rate = 150 #mm/min
+    z_feed_rate = 1000 #mm/min
     spindle_speed = 25000
     
     z_grid = [4.32] # See sketch which defines even chip load at these depths 
@@ -113,7 +113,7 @@ elif job_name == "Y RACK GUTTER":
     # Cutting variables
     xy_feed_rate = 3000 #mm/min
     xy_backlash_compensation_rate = 400 #mm/min
-    z_feed_rate = 150 #mm/min
+    z_feed_rate = 1000 #mm/min
     spindle_speed = 25000
 
     z_grid = [7.82] # See sketch which defines even chip load at these depths 
