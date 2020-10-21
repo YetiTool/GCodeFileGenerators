@@ -29,6 +29,8 @@ if job_name == "X RACK TEETH":
     y_datum = 305 # +50 from the edge of stock
     y_first_valley_position_on_model = 0
     y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    y_valleys_to_skip_home = 0 # number of gutters not to be cut at the home end
+    y_valleys_to_skip_end = 0 # number of gutters not to be cut at the far end
     thickest_material_thickness = 8 # assuming we've skimmed to 8
     y_increment = 4.712388 # distance between teeth
 
@@ -55,6 +57,8 @@ elif job_name == "X RACK GUTTER":
     y_datum = 305 # +50 from the edge of stock
     y_first_valley_position_on_model = 0
     y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    y_valleys_to_skip_home = 7 # number of gutters not to be cut at the home end
+    y_valleys_to_skip_end = 5 # number of gutters not to be cut at the far end
     thickest_material_thickness = 8 # assuming we've skimmed to 8
     y_increment = 4.712388 # distance between teeth
 
@@ -82,6 +86,8 @@ elif job_name == "Y RACK TEETH":
     y_datum = 50
     y_first_valley_position_on_model = 72.72
     y_last_valey_position_on_model = 2643 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    y_valleys_to_skip_home = 0 # number of gutters not to be cut at the home end
+    y_valleys_to_skip_end = 0 # number of gutters not to be cut at the far end
     thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
     y_increment = 4.712388 # distance between teeth
 
@@ -107,6 +113,8 @@ elif job_name == "Y RACK GUTTER":
     y_datum = 50
     y_first_valley_position_on_model = 72.72
     y_last_valey_position_on_model = 2643 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    y_valleys_to_skip_home = 4 # number of gutters not to be cut at the home end
+    y_valleys_to_skip_end = 1 # number of gutters not to be cut at the far end
     thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
     y_increment = 4.712388 # distance between teeth
 
@@ -145,8 +153,8 @@ lines = ['(' + job_name + ')',
 
 # POPULATE GRID
 y_grid = []
-y = y_datum + y_first_valley_position_on_model
-while y < y_last_valey_position_on_model + y_datum + 1.0:
+y = y_datum + y_first_valley_position_on_model + y_valleys_to_skip_home * y_increment
+while y < y_last_valey_position_on_model + y_datum - y_valleys_to_skip_end * y_increment + 1.0:
     y_grid.append(round(y, 3))
     y += y_increment
 print y_grid    
