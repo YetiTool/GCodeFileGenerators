@@ -17,7 +17,7 @@ job_name = "X RACK GUTTER"
 
 #################################################
 
-# Y
+# X
 
 if job_name == "X RACK TEETH":
 
