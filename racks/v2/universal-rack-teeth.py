@@ -10,10 +10,10 @@
 # Uncomment the job needed
 
 # job_name = "X RACK TEETH"
-# job_name = "X RACK GUTTER"
+job_name = "X RACK GUTTER"
 
 # job_name = "Y RACK TEETH"
-job_name = "Y RACK GUTTER"
+# job_name = "Y RACK GUTTER"
 
 #################################################
 
@@ -40,7 +40,7 @@ if job_name == "X RACK TEETH":
     z_feed_rate = 300 #mm/min
     spindle_speed = 20000
     
-    z_grid = [6.25, 5.12] # See sketch which defines even chip load at these depths 
+    z_grid = [6.75, 5.62] # See sketch which defines even chip load at these depths 
     print z_grid  
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
@@ -68,7 +68,7 @@ elif job_name == "X RACK GUTTER":
     z_feed_rate = 1000 #mm/min
     spindle_speed = 25000
     
-    z_grid = [4.32] # See sketch which defines even chip load at these depths 
+    z_grid = [4.82] # See sketch which defines even chip load at these depths 
     print z_grid    
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
