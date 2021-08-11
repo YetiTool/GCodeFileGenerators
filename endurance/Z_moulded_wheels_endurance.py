@@ -28,10 +28,10 @@ while lines_count < cycles_to_test:
 lines.append("M30") #Prog end
 lines.append("%") #Prog end (redundant?)
   
-print 'Lines: ' + str(lines_count)
+print "Lines: " + str(lines_count)
   
 f = open("Z_moulded_wheels_endurance.nc", "w")
 for line in lines:
 	f.write(line + "\n")   
 
-print 'File done.'
+print "File done."
