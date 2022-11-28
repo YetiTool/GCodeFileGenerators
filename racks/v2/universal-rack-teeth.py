@@ -181,8 +181,8 @@ lines = ['(' + job_name + ')',
 
 # POPULATE GRID
 y_grid = []
-y atum + ybottom__first_valley_position_on_model + y_valleys_to_skip_home * y_increment
-while y < y_last_valey_position_on_model +atum - ybottom__valleys_to_skip_end * y_increment + 1.0:
+y = y_datum_to_bottom_edge_of_model + y_first_valley_position_on_model + y_valleys_to_skip_home * y_increment
+while y < y_last_valey_position_on_model + y_datum_to_bottom_edge_of_model - y_valleys_to_skip_end * y_increment + 1.0:
     y_grid.append(round(y, 3))
     y += y_increment
 print (y_grid)    
