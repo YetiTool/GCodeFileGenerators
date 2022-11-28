@@ -11,8 +11,8 @@
 
 # job_name = "02 X RACK TEETH"
 # job_name = "03 X RACK GUTTER"
-
-job_name = "02 Y RACK TEETH"
+job_name = "SHORT BENCH Y TEETH"
+# job_name = "02 Y RACK TEETH"
 # job_name = "03 Y RACK GUTTER"
 
 #################################################
@@ -41,7 +41,7 @@ if job_name == "02 X RACK TEETH":
     spindle_speed = 20000
     
     z_grid = [6.25, 5.12] # See sketch which defines even chip load at these depths 
-    print z_grid  
+    print (z_grid)
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
@@ -69,7 +69,7 @@ elif job_name == "03 X RACK GUTTER":
     spindle_speed = 25000
     
     z_grid = [4.32] # See sketch which defines even chip load at these depths 
-    print z_grid    
+    print (z_grid)    
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
@@ -99,7 +99,35 @@ elif job_name == "02 Y RACK TEETH":
     tool_position = 11
 
     z_grid = [8.62] # See sketch which defines even chip load at these depths 
-    print z_grid    
+    print (z_grid)    
+    # Safety
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
+    z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
+
+elif job_name == "SHORT BENCH Y TEETH":
+    x_edge_of_stock_from_datum = 500
+    x_job_start_from_edge_of_stock = 30.0
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
+    x_job_width = 275.0
+    x_end = x_datum + x_job_width
+    y_datum = 25
+    y_first_valley_position_on_model = 72.72
+    y_last_valey_position_on_model = 1445 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    y_valleys_to_skip_home = 0 # number of gutters not to be cut at the home end
+    y_valleys_to_skip_end = 0 # number of gutters not to be cut at the far end
+    thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
+    y_increment = 4.712388 # distance between teeth
+
+    # Cutting variables
+    xy_feed_rate = 3000 #mm/min
+    xy_backlash_compensation_rate = 500 #mm/min
+    z_feed_rate = 1000 #mm/min
+    spindle_speed = 20000
+    tool_position = 11
+
+    z_grid = [8.62] # See sketch which defines even chip load at these depths 
+    print (z_grid)    
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
@@ -127,13 +155,13 @@ elif job_name == "03 Y RACK GUTTER":
     spindle_speed = 25000
 
     z_grid = [7.82] # See sketch which defines even chip load at these depths 
-    print z_grid    
+    print (z_grid)    
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
     z_clearance_on_cut_approach = 1.5 # as we get very near the material, we need to be at cutting feed for
     
-else: print "Select job name in the code header"
+else: print ("Select job name in the code header")
 
 
 
@@ -154,14 +182,13 @@ N70G43H5
 N80G0X0.000Y0.000S16000M3
 '''
 
-lines = ['% ' + job_name,
-        ':1248',
-        'N30 G0 X0 Y0', #
-        'N40 G40 G17 G80 G49', #
-        'N50 T' + str(tool_position) + ' M6', #
-        'N60 G90 G54', #
-        'N70 G43 H' + str(tool_position), # 
-        'N80 G0 X0.000 Y0.000 S' + str(spindle_speed) + ' M3', # Turn on spindle
+lines = ['(' + job_name + ')',
+        'G0 X0 Y0', #
+        'G40 G17 G80 G49', #
+        'T' + str(tool_position) + ' M6', #
+        'G90 G54', #
+        'G43 H' + str(tool_position), # 
+        'G0 X0.000 Y0.000 S' + str(spindle_speed) + ' M3', # Turn on spindle
         ]
 
 # POPULATE GRID
@@ -170,43 +197,43 @@ y = y_datum + y_first_valley_position_on_model + y_valleys_to_skip_home * y_incr
 while y < y_last_valey_position_on_model + y_datum - y_valleys_to_skip_end * y_increment + 1.0:
     y_grid.append(round(y, 3))
     y += y_increment
-print y_grid    
+print (y_grid)    
 
 backlash_compensation_dist = 2
 line_number = 100
 
 for y in y_grid:
 
-    lines.append("N" + str(line_number) + " G0 X" + str(x_datum) + " Y" + str(y+backlash_compensation_dist)) #Go to XY start plus Y backlash comp
+    lines.append(  "G0 X" + str(x_datum) + " Y" + str(y+backlash_compensation_dist)) #Go to XY start plus Y backlash comp
     line_number += 10
-    lines.append("N" + str(line_number) + " G1 X" + str(x_datum) + " Y" + str(y) + " F" + str(xy_backlash_compensation_rate)) #Go to XY start
+    lines.append(  "G1 X" + str(x_datum) + " Y" + str(y) + " F" + str(xy_backlash_compensation_rate)) #Go to XY start
     line_number += 10
 
     for z in z_grid:
 
-        lines.append("N" + str(line_number) + " G0 X" + str(x_datum) + " Y" + str(y)) #Go to XY start plus Y backlash comp
+        lines.append(  "G0 X" + str(x_datum) + " Y" + str(y)) #Go to XY start plus Y backlash comp
         line_number += 10
-        lines.append("N" + str(line_number) + " G0 Z" + str(z + z_clearance_on_cut_approach)) #Dive to just above material
+        lines.append(  "G0 Z" + str(z + z_clearance_on_cut_approach)) #Dive to just above material
         line_number += 10
-        lines.append("N" + str(line_number) + " G1 Z" + str(z) + " F" + str(z_feed_rate)) #Feed dive to z depth
+        lines.append(  "G1 Z" + str(z) + " F" + str(z_feed_rate)) #Feed dive to z depth
         line_number += 10
-        lines.append("N" + str(line_number) + " G1 X" + str(x_end) + " F" + str(xy_feed_rate)) #Feed cut face width of tooth
+        lines.append(  "G1 X" + str(x_end) + " F" + str(xy_feed_rate)) #Feed cut face width of tooth
         line_number += 10
-        lines.append("N" + str(line_number) + " G1 Z" + str(z + z_clearance_on_cut_approach) + " F" + str(z_feed_rate)) #Lift off material surface slowly
+        lines.append(  "G1 Z" + str(z + z_clearance_on_cut_approach) + " F" + str(z_feed_rate)) #Lift off material surface slowly
         line_number += 10
-        lines.append("N" + str(line_number) + " G0 Z" + str(z + z_clearance_above_last_cut)) #Lift to safe distance above last cut
+        lines.append(  "G0 Z" + str(z + z_clearance_above_last_cut)) #Lift to safe distance above last cut
         line_number += 10
 
-    lines.append("N" + str(line_number) + " G0 Z" + str(z_height_above_stock)) #Lift to clear stock, so we can increment in y
+    lines.append(  "G0 Z" + str(z_height_above_stock)) #Lift to clear stock, so we can increment in y
     line_number += 10
 
-lines.append("N" + str(line_number) + " M5") #Kill spindle
+lines.append(  "M5") #Kill spindle
 line_number += 10
-lines.append("N" + str(line_number) + " M30") #Prog end
+lines.append(  "M30") #Prog end
 line_number += 10
   
 f = open("AI-YETI " + job_name + ".nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
-print "Done: " + job_name
+print ("Done: " + job_name)

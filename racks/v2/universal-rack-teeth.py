@@ -10,8 +10,8 @@
 # Uncomment the job needed
 
 # job_name = "X RACK TEETH"
-job_name = "X RACK GUTTER"
-
+#job_name = "X RACK GUTTER"
+job_name = "SHORT Y RACK TEETH" # PLEASE NOTE THAT THE Y DATUM AND FIRST VALLEY POSITION ARE NOT THE SAME AS ON STANDARD Y RACKS
 # job_name = "Y RACK TEETH"
 # job_name = "Y RACK GUTTER"
 
@@ -26,7 +26,7 @@ if job_name == "X RACK TEETH":
     x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
     x_job_width = 270.0
     x_end = x_datum + x_job_width
-    y_datum = 305 # +50 from the edge of stock
+    y_datum_to_bottom_edge_of_model = 305 # +50 from the edge of stock
     y_first_valley_position_on_model = 0
     y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
     y_valleys_to_skip_home = 0 # number of gutters not to be cut at the home end
@@ -41,7 +41,7 @@ if job_name == "X RACK TEETH":
     spindle_speed = 20000
     
     z_grid = [6.75, 5.62] # See sketch which defines even chip load at these depths 
-    print z_grid  
+    print (z_grid)  
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
@@ -53,8 +53,8 @@ elif job_name == "X RACK GUTTER":
     x_job_start_from_edge_of_stock = 18.0
     x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
     x_job_width = 270.0
-    x_end = x_datum + x_job_width
-    y_datum = 305 # +50 from the edge of stock
+    x_end = x_datum + x_job_width 
+    y_datum_to_bottom_edge_of_model = 305 # +50 from the edge of stock
     y_first_valley_position_on_model = 0
     y_last_valey_position_on_model = 1400 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
     y_valleys_to_skip_home = 7 # number of gutters not to be cut at the home end
@@ -69,7 +69,7 @@ elif job_name == "X RACK GUTTER":
     spindle_speed = 25000
     
     z_grid = [4.82] # See sketch which defines even chip load at these depths 
-    print z_grid    
+    print (z_grid)    
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
@@ -83,7 +83,7 @@ elif job_name == "Y RACK TEETH":
     x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
     x_job_width = 265.0
     x_end = x_datum + x_job_width
-    y_datum = 50
+    y_datum_to_bottom_edge_of_model = 50 
     y_first_valley_position_on_model = 72.72
     y_last_valey_position_on_model = 2643 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
     y_valleys_to_skip_home = 0 # number of gutters not to be cut at the home end
@@ -98,11 +98,39 @@ elif job_name == "Y RACK TEETH":
     spindle_speed = 20000
 
     z_grid = [9.75, 8.62] # See sketch which defines even chip load at these depths 
-    print z_grid    
+    print (z_grid)    
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
     z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
+
+elif job_name == "SHORT Y RACK TEETH":
+    x_edge_of_stock_from_datum = 505.5
+    x_job_start_from_edge_of_stock = 15.0
+    x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
+    x_job_width = 270.0
+    x_end = x_datum + x_job_width
+    y_datum_to_bottom_edge_of_model = 43.5
+    y_first_valley_position_on_model = 73.404
+    y_last_valey_position_on_model = 1450 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
+    y_valleys_to_skip_home = 0 # number of gutters not to be cut at the home end
+    y_valleys_to_skip_end = 0 # number of gutters not to be cut at the far end
+    thickest_material_thickness = 13.5 # polymer thickness can have a wild tolerance
+    y_increment = 4.712388 # distance between teeth
+
+    # Cutting variables
+    xy_feed_rate = 3000 #mm/min
+    xy_backlash_compensation_rate = 400 #mm/min
+    z_feed_rate = 300 #mm/min
+    spindle_speed = 20000
+
+    z_grid = [9.75, 8.62] # See sketch which defines even chip load at these depths 
+    print (z_grid)    
+    # Safety
+    z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
+    z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
+    z_clearance_on_cut_approach = 1 # as we get very near the material, we need to be at cutting feed for
+
 
 elif job_name == "Y RACK GUTTER":
     x_edge_of_stock_from_datum = 505.5
@@ -110,7 +138,7 @@ elif job_name == "Y RACK GUTTER":
     x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
     x_job_width = 265.0
     x_end = x_datum + x_job_width
-    y_datum = 50
+    y_datum_to_bottom_edge_of_model = 50
     y_first_valley_position_on_model = 72.72
     y_last_valey_position_on_model = 2643 # will use a less than loop to stop the while loop, hence 1mm added onto theoretical last position
     y_valleys_to_skip_home = 4 # number of gutters not to be cut at the home end
@@ -125,14 +153,14 @@ elif job_name == "Y RACK GUTTER":
     spindle_speed = 25000
 
     z_grid = [7.82] # See sketch which defines even chip load at these depths 
-    print z_grid    
+    print (z_grid)    
     # Safety
     z_clearance_above_top_surface = 3 # relative clearance above stock for safe moves
     z_clearance_above_last_cut = 3 # relative clearance above last cut for next  moves
     z_clearance_on_cut_approach = 1.5 # as we get very near the material, we need to be at cutting feed for
 
     
-else: print "Select job name in the code header"
+else: print ("Select job name in the code header")
 
 
 
@@ -153,11 +181,11 @@ lines = ['(' + job_name + ')',
 
 # POPULATE GRID
 y_grid = []
-y = y_datum + y_first_valley_position_on_model + y_valleys_to_skip_home * y_increment
-while y < y_last_valey_position_on_model + y_datum - y_valleys_to_skip_end * y_increment + 1.0:
+y atum + ybottom__first_valley_position_on_model + y_valleys_to_skip_home * y_increment
+while y < y_last_valey_position_on_model +atum - ybottom__valleys_to_skip_end * y_increment + 1.0:
     y_grid.append(round(y, 3))
     y += y_increment
-print y_grid    
+print (y_grid)    
 
 backlash_compensation_dist = 2
 
@@ -186,4 +214,4 @@ f = open(job_name + ".nc", "w")
 for line in lines:
     f.write(line + "\n")   
 
-print "Done: " + job_name
+print ("Done: " + job_name)
