@@ -108,7 +108,7 @@ elif job_name == "SHORT Y RACK TEETH":
     x_edge_of_stock_from_datum = 505.5
     x_job_start_from_edge_of_stock = 15.0
     x_datum = x_edge_of_stock_from_datum + x_job_start_from_edge_of_stock   # Job start point - Relative to home corner of stock
-    x_job_width = 270.0
+    x_job_width = 275.0
     x_end = x_datum + x_job_width
     y_datum_to_bottom_edge_of_model = 43.5
     y_first_valley_position_on_model = 73.404
